@@ -27,10 +27,12 @@ gallery.addEventListener("click", imageClick);
 
 function imageClick(event) {
   event.preventDefault();
-  const target = event.target;
+    const target = event.target;
+    // console.log(event.target);
   if (target.classList.contains("gallery__image")) {
     const largeImageUrl = target.dataset.source;
     openModal(largeImageUrl);
+    
   }
 }
 
@@ -38,13 +40,12 @@ function openModal(url) {
   const instance = basicLightbox.create(
     `<img src="${url}" width="800" height="600">`
   );
-    instance.show();
-    document.body.addEventListener("keydown", event => {
-        if (event.code === "Escape") {
-          instance.close();
-        }
-      });
+  instance.show();
+  document.body.addEventListener("keydown", event => {
+    if (event.code === "Escape") {
+      instance.close();
+    }
+  });
 }
-
 
 console.log(galleryItems);

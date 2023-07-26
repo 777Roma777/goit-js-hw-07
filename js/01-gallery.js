@@ -27,25 +27,31 @@ gallery.addEventListener("click", imageClick);
 
 function imageClick(event) {
   event.preventDefault();
-    const target = event.target;
-    // console.log(event.target);
-  if (target.classList.contains("gallery__image")) {
-    const largeImageUrl = target.dataset.source;
-    openModal(largeImageUrl);
-    
-  }
-}
 
+  const target = event.target;
+  if (target.nodeName !== "IMG") return;
+
+  const largeImageUrl = target.dataset.source;
+  openModal(largeImageUrl);
+}
 function openModal(url) {
-  const instance = basicLightbox.create(
-    `<img src="${url}" width="800" height="600">`
+  const instance = new basicLightbox.create(
+    `<img src="${url}" width="800" height="600">`,
+    {
+      onShow: () => {
+        document.body.addEventListener("keydown", handleKeyDown);
+      },
+      onClose: () => {
+        document.body.removeEventListener("keydown", handleKeyDown);
+      },
+    }
   );
   instance.show();
-  document.body.addEventListener("keydown", event => {
-    if (event.code === "Escape") {
+
+  function handleKeyDown(event) {
+    if (event.key === "Escape") {
       instance.close();
     }
-  });
+  }
 }
-
 console.log(galleryItems);
